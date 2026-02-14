@@ -1,38 +1,20 @@
 import { Routes } from '@angular/router';
-import { LandingComponent } from './Components/landing/landing.component';
-import { HomeComponent } from './Components/home/home/home.component';
-import { CatalogoComponent } from './Components/catalogo/catalogo.component';
-import { ContactoComponent } from './Components/contacto/contacto.component';
-import { LoginComponent } from './Components/login/login.component';
+import { VeterinariaHomeComponent } from './Components/veterinaria-home/veterinaria-home.component';
+import { VeterinariaServiciosComponent } from './Components/veterinaria-servicios/veterinaria-servicios.component';
+import { VeterinariaContactoComponent } from './Components/veterinaria-contacto/veterinaria-contacto.component';
 
 export const routes: Routes = [
   {
     path: '', 
-    component: HomeComponent  // Home como página principal
+    component: VeterinariaHomeComponent
   },
   {
-    path: 'home', 
-    redirectTo: '',  // Redirigir /home a la raíz
-  },
-  {
-    path: 'landing', 
-    component: LandingComponent  // Landing disponible si es necesario
-  },
-  {
-    path: 'catalogo/:categoria', 
-    component: CatalogoComponent
-  },
-  {
-    path: 'catalogo', 
-    component: CatalogoComponent
+    path: 'servicios', 
+    component: VeterinariaServiciosComponent
   },
   {
     path: 'contacto', 
-    component: ContactoComponent
-  },
-  {
-    path: 'login', 
-    component: LoginComponent
+    component: VeterinariaContactoComponent
   },
   {
     path: '**', 

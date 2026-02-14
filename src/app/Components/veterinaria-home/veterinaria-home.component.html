@@ -1,0 +1,85 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Cuidando a tus <span class="highlight">mascotas</span> 
+        con amor y profesionalismo
+      </h1>
+      <p class="hero-subtitle">
+        En VetCare ofrecemos atención veterinaria integral para todas las especies. 
+        Nuestro equipo de profesionales está comprometido con la salud y bienestar 
+        de tu mejor amigo.
+      </p>
+      <div class="hero-buttons">
+        <a routerLink="/contacto" class="btn btn-primary">
+          <i class="fas fa-calendar-alt"></i>
+          Agendar Cita
+        </a>
+        <a routerLink="/servicios" class="btn btn-secondary">
+          <i class="fas fa-info-circle"></i>
+          Nuestros Servicios
+        </a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=600&h=400&fit=crop" 
+           alt="Veterinario con mascota" 
+           loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">¿Por qué elegir VetCare?</h2>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">5000+</div>
+        <div class="stat-label">Mascotas Atendidas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Años de Experiencia</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Atención Disponible</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Clientes Satisfechos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>¿Tu mascota necesita atención médica?</h2>
+      <p>No esperes más, agenda una cita hoy mismo y dale a tu mascota el cuidado que se merece.</p>
+      <a routerLink="/contacto" class="btn btn-white">
+        <i class="fas fa-phone"></i>
+        Contactar Ahora
+      </a>
+    </div>
+  </div>
+</section>

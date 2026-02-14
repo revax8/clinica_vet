@@ -1,0 +1,111 @@
+<!-- Header Section -->
+<section class="services-header">
+  <div class="container">
+    <h1 class="page-title">Nuestros Servicios</h1>
+    <p class="page-subtitle">
+      Ofrecemos una amplia gama de servicios veterinarios para garantizar 
+      la salud y bienestar completo de tu mascota.
+    </p>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="services-section">
+  <div class="container">
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services">
+        <div class="service-icon">
+          <i [class]="service.icon"></i>
+        </div>
+        <h3 class="service-title">{{ service.title }}</h3>
+        <p class="service-description">{{ service.description }}</p>
+        <ul class="service-features">
+          <li *ngFor="let feature of service.features">
+            <i class="fas fa-check"></i>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+        <a [routerLink]="['/contacto']" 
+           [queryParams]="{servicio: getServiceKey(service.title)}" 
+           class="service-btn">
+          <i class="fas fa-calendar-alt"></i>
+          Agendar Cita
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Section -->
+<section class="emergency-section">
+  <div class="container">
+    <div class="emergency-content">
+      <div class="emergency-icon">
+        <i class="fas fa-ambulance"></i>
+      </div>
+      <div class="emergency-text">
+        <h2>Servicio de Emergencias 24/7</h2>
+        <p>
+          Estamos disponibles las 24 horas para atender cualquier emergencia 
+          veterinaria. Tu mascota nunca estará sola cuando más nos necesite.
+        </p>
+      </div>
+      <a routerLink="/contacto" class="emergency-btn">
+        <i class="fas fa-phone"></i>
+        Llamar Emergencia
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+  <div class="container">
+    <h2 class="section-title">¿Cómo Trabajamos?</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <h3>Consulta Inicial</h3>
+        <p>Agenda una cita y trae a tu mascota para una evaluación completa.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <h3>Diagnóstico</h3>
+        <p>Realizamos exámenes detallados para determinar el mejor tratamiento.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <h3>Tratamiento</h3>
+        <p>Aplicamos el plan de tratamiento más adecuado para tu mascota.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">4</div>
+        <h3>Seguimiento</h3>
+        <p>Monitoreamos la recuperación y brindamos cuidados posteriores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>¿Necesitas alguno de nuestros servicios?</h2>
+      <p>
+        No dudes en contactarnos. Nuestro equipo está listo para brindar 
+        la mejor atención a tu mascota.
+      </p>
+      <div class="cta-buttons">
+        <a routerLink="/contacto" class="btn btn-primary">
+          <i class="fas fa-calendar-alt"></i>
+          Agendar Cita
+        </a>
+        <a routerLink="/contacto" class="btn btn-secondary">
+          <i class="fas fa-phone"></i>
+          Contactar
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

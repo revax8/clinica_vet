@@ -1,0 +1,237 @@
+<!-- Header Section -->
+<section class="contact-header">
+  <div class="container">
+    <h1 class="page-title">Contáctanos</h1>
+    <p class="page-subtitle">
+      Estamos aquí para cuidar de tu mascota. Agenda una cita o ponte en contacto con nosotros.
+    </p>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+      
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h2>Información de Contacto</h2>
+        
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="info-content">
+            <h3>Dirección</h3>
+            <p>Av. Principal #123<br>Colonia Centro, Ciudad<br>C.P. 12345</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="info-content">
+            <h3>Teléfonos</h3>
+            <p>Principal: (55) 1234-5678<br>Emergencias: (55) 8765-4321</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="info-content">
+            <h3>Email</h3>
+            <p>info&#64;vetcare.com<br>emergencias&#64;vetcare.com</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="info-content">
+            <h3>Horarios</h3>
+            <p>Lun - Vie: 8:00 AM - 8:00 PM<br>Sáb - Dom: 9:00 AM - 6:00 PM<br><strong>Emergencias: 24/7</strong></p>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="social-media">
+          <h3>Síguenos</h3>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form">
+        <h2>Agendar Cita o Consulta</h2>
+        <p class="form-description">
+          Completa el formulario y elige cómo prefieres recibir nuestra respuesta:
+        </p>
+        
+        <div class="contact-options">
+          <div class="option-card">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <h4>WhatsApp</h4>
+              <p>Respuesta inmediata y posibilidad de enviar fotos</p>
+            </div>
+          </div>
+          <div class="option-card">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <h4>Email</h4>
+              <p>Respuesta en 24 horas con información detallada</p>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-group">
+            <label for="nombre">Nombre Completo *</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              formControlName="nombre"
+              [class.error]="contactForm.get('nombre')?.invalid && contactForm.get('nombre')?.touched"
+              placeholder="Tu nombre completo">
+            <span class="error-message" *ngIf="getErrorMessage('nombre')">
+              {{ getErrorMessage('nombre') }}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email"
+              [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+              placeholder="tu@email.com">
+            <span class="error-message" *ngIf="getErrorMessage('email')">
+              {{ getErrorMessage('email') }}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono *</label>
+            <input 
+              type="tel" 
+              id="telefono" 
+              formControlName="telefono"
+              [class.error]="contactForm.get('telefono')?.invalid && contactForm.get('telefono')?.touched"
+              placeholder="1234567890">
+            <span class="error-message" *ngIf="getErrorMessage('telefono')">
+              {{ getErrorMessage('telefono') }}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="servicio">Servicio Requerido *</label>
+            <select 
+              id="servicio" 
+              formControlName="servicio"
+              [class.error]="contactForm.get('servicio')?.invalid && contactForm.get('servicio')?.touched">
+              <option value="">Selecciona un servicio</option>
+              <option value="consulta">Consulta Veterinaria</option>
+              <option value="vacunacion">Vacunación</option>
+              <option value="cirugia">Cirugía</option>
+              <option value="diagnostico">Diagnóstico por Imagen</option>
+              <option value="estetica">Estética y Peluquería</option>
+              <option value="hospitalizacion">Hospitalización</option>
+              <option value="emergencia">Emergencia</option>
+            </select>
+            <span class="error-message" *ngIf="getErrorMessage('servicio')">
+              {{ getErrorMessage('servicio') }}
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje">Mensaje *</label>
+            <textarea 
+              id="mensaje" 
+              formControlName="mensaje"
+              [class.error]="contactForm.get('mensaje')?.invalid && contactForm.get('mensaje')?.touched"
+              placeholder="Cuéntanos sobre tu mascota y el motivo de la consulta..."
+              rows="4"></textarea>
+            <span class="error-message" *ngIf="getErrorMessage('mensaje')">
+              {{ getErrorMessage('mensaje') }}
+            </span>
+          </div>
+
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="submit-btn whatsapp-btn"
+              [disabled]="contactForm.invalid">
+              <i class="fab fa-whatsapp"></i>
+              <span>Enviar por WhatsApp</span>
+            </button>
+            
+            <div class="or-divider">
+              <span>o</span>
+            </div>
+            
+            <button 
+              type="button" 
+              class="submit-btn email-btn"
+              [disabled]="contactForm.invalid"
+              (click)="enviarPorEmail()">
+              <i class="fas fa-envelope"></i>
+              <span>Enviar por Email</span>
+            </button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Call to Action -->
+<section class="emergency-cta">
+  <div class="container">
+    <div class="emergency-content">
+      <div class="emergency-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="emergency-text">
+        <h2>¿Es una Emergencia?</h2>
+        <p>Si tu mascota necesita atención médica urgente, no dudes en llamarnos inmediatamente.</p>
+      </div>
+      <a href="tel:+525587654321" class="emergency-btn">
+        <i class="fas fa-phone"></i>
+        Llamar Ahora: (55) 8765-4321
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Notification -->
+<div class="notification" 
+     [class.show]="showNotification" 
+     [class.success]="notificationType === 'success'"
+     [class.error]="notificationType === 'error'">
+  <div class="notification-content">
+    <i class="fas" 
+       [class.fa-check-circle]="notificationType === 'success'"
+       [class.fa-exclamation-circle]="notificationType === 'error'"></i>
+    <span>{{ notificationMessage }}</span>
+    <button class="notification-close" (click)="closeNotification()">&times;</button>
+  </div>
+</div>
