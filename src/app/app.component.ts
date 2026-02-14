@@ -11,5 +11,5 @@ import { VeterinariaNavbarComponent } from './Components/veterinaria-navbar/vete
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'VetCare - Cuidado Veterinario';
+  title = 'Clinicanimal - Cuidado Veterinario';
 }

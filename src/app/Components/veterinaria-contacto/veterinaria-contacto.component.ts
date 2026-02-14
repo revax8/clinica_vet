@@ -80,7 +80,7 @@ export class VeterinariaContactoComponent implements OnInit {
     // En producción, aquí integrarías con EmailJS, SendGrid, etc.
     
     const emailData = {
-      to: 'veterinaria@vetcare.com',
+      to: 'info@clinicanimal.com',
       subject: `Nueva solicitud de ${datos.nombre} - ${this.obtenerTextoServicio(datos.servicio)}`,
       body: `
         Cliente: ${datos.nombre}
@@ -97,7 +97,7 @@ export class VeterinariaContactoComponent implements OnInit {
     this.showSuccessNotification('¡Solicitud enviada correctamente! Te contactaremos en las próximas 24 horas.');
     this.contactForm.reset();
     
-    console.log('Email que se enviaría:', emailData);
+    console.log('🐾 Clinicanimal - Página web cargada correctamente');
   }
 
   private crearMensajeWhatsApp(datos: any): string {
@@ -114,7 +114,7 @@ export class VeterinariaContactoComponent implements OnInit {
 ${datos.mensaje}
 
 ---
-_Enviado desde la página web de VetCare_`;
+_Enviado desde la página web de Clinicanimal_`;
   }
 
   private obtenerTextoServicio(valor: string): string {

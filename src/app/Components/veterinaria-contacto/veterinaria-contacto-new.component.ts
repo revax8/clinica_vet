@@ -68,7 +68,7 @@ export class VeterinariaContactoComponent {
     // En producción, aquí integrarías con EmailJS, SendGrid, etc.
     
     const emailData = {
-      to: 'veterinaria@vetcare.com',
+      to: 'info@clinicanimal.com',
       subject: `Nueva solicitud de ${datos.nombre} - ${this.obtenerTextoServicio(datos.servicio)}`,
       body: `
         Cliente: ${datos.nombre}
@@ -102,7 +102,7 @@ export class VeterinariaContactoComponent {
 ${datos.mensaje}
 
 ---
-_Enviado desde la página web de VetCare_`;
+_Enviado desde la página web de Clinicanimal_`;
   }
 
   private obtenerTextoServicio(valor: string): string {
