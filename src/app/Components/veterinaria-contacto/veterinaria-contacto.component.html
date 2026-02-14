@@ -79,27 +79,6 @@
 
       <!-- Contact Form -->
       <div class="contact-form">
-        <h2>Agendar Cita o Consulta</h2>
-        <p class="form-description">
-          Completa el formulario y elige cómo prefieres recibir nuestra respuesta:
-        </p>
-        
-        <div class="contact-options">
-          <div class="option-card">
-            <i class="fab fa-whatsapp"></i>
-            <div>
-              <h4>WhatsApp</h4>
-              <p>Respuesta inmediata y posibilidad de enviar fotos</p>
-            </div>
-          </div>
-          <div class="option-card">
-            <i class="fas fa-envelope"></i>
-            <div>
-              <h4>Email</h4>
-              <p>Respuesta en 24 horas con información detallada</p>
-            </div>
-          </div>
-        </div>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
           
           <div class="form-group">
@@ -183,18 +162,6 @@
               <span>Enviar por WhatsApp</span>
             </button>
             
-            <div class="or-divider">
-              <span>o</span>
-            </div>
-            
-            <button 
-              type="button" 
-              class="submit-btn email-btn"
-              [disabled]="contactForm.invalid"
-              (click)="enviarPorEmail()">
-              <i class="fas fa-envelope"></i>
-              <span>Enviar por Email</span>
-            </button>
           </div>
           
         </form>

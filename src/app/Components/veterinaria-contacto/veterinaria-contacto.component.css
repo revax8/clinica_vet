@@ -273,15 +273,7 @@
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
 }
 
-.email-btn {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  color: white;
-}
 
-.email-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
-}
 
 .submit-btn:disabled {
   opacity: 0.5;
@@ -289,29 +281,8 @@
   transform: none;
 }
 
-.or-divider {
-  text-align: center;
-  position: relative;
-  margin: 0.5rem 0;
-}
 
-.or-divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #e5e7eb;
-}
 
-.or-divider span {
-  background: #f9fafb;
-  padding: 0 1rem;
-  color: #6b7280;
-  font-size: 0.875rem;
-  position: relative;
-}
 
 /* Emergency CTA */
 .emergency-cta {

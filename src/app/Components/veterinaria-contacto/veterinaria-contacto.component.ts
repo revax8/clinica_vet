@@ -48,15 +48,6 @@ export class VeterinariaContactoComponent implements OnInit {
     }
   }
 
-  enviarPorEmail() {
-    if (this.contactForm.valid) {
-      const formData = this.contactForm.value;
-      this.enviarEmailSimulado(formData);
-    } else {
-      this.showErrorNotification('Por favor, completa todos los campos correctamente.');
-    }
-  }
-
   private enviarPorWhatsApp(datos: any) {
     try {
       // Crear mensaje estructurado
@@ -149,27 +140,6 @@ export class VeterinariaContactoComponent implements OnInit {
       const whatsappURL = `https://wa.me/${this.WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
       window.location.href = whatsappURL;
     }
-  }
-
-  private enviarEmailSimulado(datos: any) {
-    const emailData = {
-      to: 'info@clinicanimal.com',
-      subject: `Nueva solicitud de ${datos.nombre} - ${this.obtenerTextoServicio(datos.servicio)}`,
-      body: `
-        Cliente: ${datos.nombre}
-        Email: ${datos.email}
-        Teléfono: ${datos.telefono}
-        Servicio: ${this.obtenerTextoServicio(datos.servicio)}
-        
-        Mensaje:
-        ${datos.mensaje}
-      `
-    };
-    
-    this.showSuccessNotification('¡Solicitud enviada correctamente! Te contactaremos en las próximas 24 horas.');
-    this.contactForm.reset();
-    
-    console.log('📧 Email que se enviaría:', emailData);
   }
 
   private crearMensajeWhatsApp(datos: any): string {
