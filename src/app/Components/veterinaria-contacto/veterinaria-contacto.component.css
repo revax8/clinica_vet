@@ -283,6 +283,17 @@
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
 }
 
+.debug-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  margin-top: 1rem;
+}
+
+.debug-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+}
+
 .submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

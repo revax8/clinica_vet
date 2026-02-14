@@ -16,7 +16,7 @@ export class VeterinariaContactoComponent {
   notificationType: 'success' | 'error' = 'success';
 
   // Configuración del WhatsApp (cambiar por el número real de la veterinaria)
-  private readonly WHATSAPP_NUMBER = '5214622430839'; // Formato: código país + número sin espacios ni símbolos
+  private readonly WHATSAPP_NUMBER = '524622430839'; // Formato: código país + número sin espacios ni símbolos
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
