@@ -1,0 +1,211 @@
+import { Injectable } from '@angular/core';
+import * as XLSX from 'xlsx';
+
+export interface ProductoExcel {
+  id: number;
+  nombre: string;
+  precio: number;
+  imagen: string;
+  descripcion: string;
+  tipo: string;
+  disponible: number; // 0 = no disponible, 1 = disponible
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ExcelReaderService {
+
+  constructor() { }
+
+  async leerProductosDesdeExcel(): Promise<ProductoExcel[]> {
+    try {
+      console.log('🚀 INICIANDO LECTURA DE EXCEL...');
+      
+      const response = await fetch('/Descriptions.xlsx');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+      }
+      
+      console.log('✅ Archivo Excel descargado correctamente');
+      
+      const arrayBuffer = await response.arrayBuffer();
+      console.log(`📊 Tamaño del archivo: ${arrayBuffer.byteLength} bytes`);
+      
+      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+      console.log('📋 Hojas disponibles:', workbook.SheetNames);
+      
+      // Buscar hoja válida (priorizar Hoja3)
+      let worksheet = workbook.Sheets['Hoja3'] || workbook.Sheets['Hoja1'] || workbook.Sheets['Sheet1'];
+      
+      if (!worksheet) {
+        throw new Error('No hay hojas válidas en el Excel');
+      }
+      
+      const nombreHoja = workbook.SheetNames.find(name => workbook.Sheets[name] === worksheet) || 'desconocida';
+      console.log(`✅ Usando hoja: "${nombreHoja}"`);
+      
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      console.log(`📄 ${jsonData.length} filas encontradas`);
+      
+      if (jsonData.length === 0) {
+        throw new Error('La hoja Excel no contiene datos');
+      }
+      
+      // Mostrar estructura de la primera fila
+      const primeraFila = jsonData[0] as Record<string, any>;
+      console.log('📋 Columnas:', Object.keys(primeraFila));
+      console.log('📋 Ejemplo:', primeraFila);
+      
+      // Procesar productos
+      const productos: ProductoExcel[] = [];
+      
+      for (let i = 0; i < jsonData.length; i++) {
+        const row = jsonData[i] as Record<string, any>;
+        
+        // FILTRO: Ignorar productos sin precio
+        const precioRaw = row['precio'] || row['Precio'] || row['price'] || row['Price'];
+        const tienePrecio = precioRaw && 
+                           precioRaw !== '' && 
+                           precioRaw !== 0 && 
+                           precioRaw !== '0' &&
+                           !isNaN(parseFloat(precioRaw.toString().replace(/[,$]/g, '')));
+        
+        if (!tienePrecio) {
+          console.log(`❌ FILA ${i + 1} IGNORADA - Sin precio válido:`, precioRaw);
+          continue;
+        }
+        
+        const imagenRaw = this.parseString(row["imagen"] || row["Imagen"] || row["image"] || row["Image"]);
+        const producto: ProductoExcel = {
+          id: this.parseNumber(row["id"] || row["Id"] || row["ID"]),
+          nombre: this.parseString(row["nombre"] || row["Nombre"] || row["name"] || row["Name"]),
+          precio: this.parseNumber(row["precio"] || row["Precio"] || row["price"] || row["Price"]),
+          imagen: this.normalizarRutaImagen(imagenRaw),
+          descripcion: this.parseString(row["descripcion"] || row["Descripcion"] || row["description"] || row["Description"]),
+          tipo: this.parseString(row["tipo"] || row["Tipo"] || row["category"] || row["Category"]).toLowerCase(),
+          disponible: this.parseNumber(row["disponible"] || row["Disponible"] || row["available"] || row["Available"])
+        };
+        
+        // Validar y agregar solo productos válidos
+        if (producto.id > 0 && producto.nombre && producto.precio > 0 && producto.imagen) {
+          productos.push(producto);
+          console.log(`✅ ${i + 1}. "${producto.nombre}" → $${producto.precio}`);
+        } else {
+          console.warn(`⚠️ Producto inválido en fila ${i + 1}:`, {
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            imagen: producto.imagen
+          });
+        }
+      }
+      
+      console.log(`✅ PROCESADOS ${productos.length} productos válidos de ${jsonData.length} filas`);
+      
+      if (productos.length === 0) {
+        // Fallback con producto de ejemplo
+        return [{
+          id: 1,
+          nombre: 'Producto de Ejemplo',
+          precio: 99.99,
+          imagen: '/23712_890.jpg',
+          descripcion: 'Producto cargado desde Excel',
+          tipo: 'juguetes'
+        }];
+      }
+      
+      return productos;
+      
+    } catch (error) {
+      console.error('💥 ERROR en lectura de Excel:', error);
+      throw error;
+    }
+  }
+
+  organizarProductosPorTipo(productos: ProductoExcel[]): { [key: string]: ProductoExcel[] } {
+    console.log('🏗️ Organizando productos por tipo...');
+    
+    const productosOrganizados: { [key: string]: ProductoExcel[] } = {
+      juguetes: [],
+      ropa: [],
+      electronica: [],
+      hogar: [],
+      deportes: []
+    };
+
+    productos.forEach(producto => {
+      const tipo = this.normalizarTipo(producto.tipo);
+      productosOrganizados[tipo].push(producto);
+      console.log(`📦 ${producto.nombre} → ${tipo}`);
+    });
+
+    console.log('✅ Organización completada');
+    return productosOrganizados;
+  }
+
+  private normalizarTipo(tipo: string): string {
+    const tipoLimpio = tipo.toLowerCase().trim();
+    
+    if (tipoLimpio.includes('juguete') || tipoLimpio.includes('toy')) return 'juguetes';
+    if (tipoLimpio.includes('ropa') || tipoLimpio.includes('clothing') || tipoLimpio.includes('fashion')) return 'ropa';
+    if (tipoLimpio.includes('electronic') || tipoLimpio.includes('tech') || tipoLimpio.includes('tecnolog')) return 'electronica';
+    if (tipoLimpio.includes('hogar') || tipoLimpio.includes('home') || tipoLimpio.includes('casa')) return 'hogar';
+    if (tipoLimpio.includes('deporte') || tipoLimpio.includes('sport') || tipoLimpio.includes('fitness')) return 'deportes';
+    
+    return 'juguetes'; // Default
+  }
+
+  private parseNumber(value: any): number {
+    if (typeof value === 'number') return value;
+    if (typeof value === 'string') {
+      const parsed = parseFloat(value.replace(/[,$]/g, ''));
+      return isNaN(parsed) ? 0 : parsed;
+    }
+    return 0;
+  }
+
+  private parseString(value: any): string {
+    if (typeof value === 'string') return value.trim();
+    if (value !== null && value !== undefined) return String(value).trim();
+    return '';
+  }
+
+  private normalizarRutaImagen(imagenRaw: string): string {
+    if (!imagenRaw) return '';
+    
+    // Lista de archivos que existen en public/ con extensiones mixtas
+    const archivosExistentes = [
+      '0_190.JPG', '0_400.jpg', '16431_450.JPG', '17292_259.JPG', 
+      '18452_150.JPG', '23712_890.jpg', '54535_110.JPG', '5913_249.JPG',
+      '60498_185.JPG', '6118_249.JPG', '67764_250.JPG', '67887_560.JPG',
+      '71590_185.JPG', '71613_180.JPG', '71613_185.JPG', '71774_150.JPG',
+      '72702_149.JPG', '74511_370.JPG', '76133_260.JPG', '76355_298.JPG',
+      '80367_150.JPG', '80812_180.JPG', '80898_160.JPG', '81261_180.JPG',
+      '81963_350.JPG', '91989_485.JPG', '93541_296.JPG'
+    ];
+    
+    // Limpiar la ruta
+    let nombreLimpio = imagenRaw.startsWith('/') ? imagenRaw.substring(1) : imagenRaw;
+    
+    // Buscar el archivo que realmente existe (probando ambas extensiones)
+    const archivoEncontrado = archivosExistentes.find(archivo => {
+      // Comparar sin extensión
+      const sinExtension = archivo.split('.')[0];
+      const nombreSinExtension = nombreLimpio.split('.')[0];
+      return sinExtension === nombreSinExtension;
+    });
+    
+    if (archivoEncontrado) {
+      const rutaNormalizada = '/' + archivoEncontrado;
+      console.log(`🖼️ Imagen: ${imagenRaw} → ${rutaNormalizada} ✅`);
+      return rutaNormalizada;
+    }
+    
+    // Si no se encuentra, usar la ruta original
+    const rutaOriginal = '/' + nombreLimpio;
+    console.log(`🖼️ Imagen: ${imagenRaw} → ${rutaOriginal} ⚠️ (no encontrada)`);
+    return rutaOriginal;
+  }
+}

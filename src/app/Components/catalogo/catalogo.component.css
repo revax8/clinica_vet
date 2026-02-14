@@ -1,0 +1,410 @@
+/* Estilos optimizados para el catálogo - Sistema de zoom simplificado */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Contenedor principal */
+.container {
+  padding: 0 1rem;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Estilos de productos */
+.product-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+}
+
+/* Imágenes de productos */
+.product-image {
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+  border-radius: 8px !important;
+  object-fit: cover;
+  width: 100%;
+  height: 200px;
+}
+
+/* Sistema de zoom dinámico - Las imágenes se amplían inline siguiendo el mouse */
+.product-card img[style*="scale"] {
+  z-index: 9999 !important;
+  position: relative !important;
+  cursor: zoom-out !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 8px !important;
+  /* Suavizar el movimiento del zoom */
+  transition: transform 0.3s ease, transform-origin 0.1s ease !important;
+}
+
+/* Mejorar el contenedor cuando hay zoom activo */
+.product-card:has(img[style*="scale"]) {
+  z-index: 9998;
+  position: relative;
+  overflow: visible;
+}
+
+/* Indicador visual de que se puede mover el zoom */
+.product-card img[style*="scale"]::after {
+  content: '👆 Mueve el mouse para explorar';
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 10000;
+  pointer-events: none;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Filtros de categoría */
+.filter-btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-weight: 500 !important;
+}
+
+.filter-btn:hover {
+  border-color: #8b5cf6;
+  background: #faf5ff;
+  color: #8b5cf6;
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Notificaciones del carrito */
+div.notificacion-carrito {
+  background: linear-gradient(135deg, #25d366, #128c7e) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+  font-weight: 500 !important;
+}
+
+/* Carrito */
+.cart-icon {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-icon:hover {
+  transform: scale(1.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
+}
+
+/* Botones */
+.btn-primary {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500 !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500 !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Animaciones de entrada */
+.product-card {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.1s; }
+.product-card:nth-child(3) { animation-delay: 0.15s; }
+.product-card:nth-child(4) { animation-delay: 0.2s; }
+.product-card:nth-child(5) { animation-delay: 0.25s; }
+.product-card:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Estados de carga */
+.loading-spinner {
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #8b5cf6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Placeholders para imágenes */
+.image-placeholder {
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 8px !important;
+  min-height: 200px;
+  color: #9ca3af;
+}
+
+.image-placeholder span:first-child {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  .product-card {
+    margin-bottom: 1rem;
+  }
+  
+  .product-image {
+    height: 180px;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Cambiar el mensaje en móvil */
+  .product-card img[style*="scale"]::after {
+    content: '👆 Toca y arrastra para explorar';
+    font-size: 12px;
+    bottom: 15px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-image {
+    height: 160px;
+  }
+  
+  .product-card {
+    border-radius: 8px !important;
+  }
+  
+  .btn-primary, .btn-success, .btn-danger {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .product-card img[style*="scale"]::after {
+    content: '👆 Arrastra';
+    font-size: 11px;
+    bottom: 10px;
+    padding: 5px 10px;
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Estados focus para accesibilidad */
+.filter-btn:focus,
+.btn-primary:focus,
+.btn-success:focus,
+.btn-danger:focus,
+.product-image:focus {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Utilidades de Tailwind que puedan faltar */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fixed {
+  z-index: 9999;
+}
+
+/* Mejoras para botones de categoría en bienvenida */
+.categoria-welcome-btn {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.categoria-welcome-btn:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+  border-color: #8b5cf6;
+}
+
+.categoria-welcome-btn:active {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Animación de entrada para botones de categorías */
+.categoria-welcome-btn {
+  animation: fadeInScale 0.6s ease-out forwards;
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+}
+
+.categoria-welcome-btn:nth-child(1) { animation-delay: 0.1s; }
+.categoria-welcome-btn:nth-child(2) { animation-delay: 0.2s; }
+.categoria-welcome-btn:nth-child(3) { animation-delay: 0.3s; }
+.categoria-welcome-btn:nth-child(4) { animation-delay: 0.4s; }
+.categoria-welcome-btn:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Mejoras para productos no disponibles */
+.product-card.opacity-60 {
+  filter: grayscale(0.8);
+  opacity: 0.6;
+}
+
+.product-card.opacity-60:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-card.pointer-events-none {
+  pointer-events: none;
+}
+
+/* Badge de no disponible */
+.product-card .bg-gradient-to-r.from-red-500 {
+  animation: pulse 2s infinite;
+}
+
+/* Mejoras para el WhatsApp */
+.whatsapp-btn {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+}
+
+.whatsapp-btn:hover {
+  background: linear-gradient(135deg, #128c7e, #075e54);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}

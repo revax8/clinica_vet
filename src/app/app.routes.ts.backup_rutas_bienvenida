@@ -1,0 +1,43 @@
+import { Routes } from '@angular/router';
+import { LandingComponent } from './Components/landing/landing.component';
+import { HomeComponent } from './Components/home/home/home.component';
+import { CatalogoComponent } from './Components/catalogo/catalogo.component';
+import { ContactoComponent } from './Components/contacto/contacto.component';
+import { LoginComponent } from './Components/login/login.component';
+
+export const routes: Routes = [
+  {
+    path: '', 
+    component: HomeComponent  // Home como página principal
+  },
+  {
+    path: 'home', 
+    redirectTo: '',  // Redirigir /home a la raíz
+    pathMatch: 'full'
+  },
+  {
+    path: 'landing', 
+    component: LandingComponent  // Landing disponible si es necesario
+  },
+  {
+    path: 'catalogo/:categoria', 
+    component: CatalogoComponent
+  },
+  {
+    path: 'catalogo', 
+    redirectTo: 'catalogo/juguetes',
+    pathMatch: 'full'
+  },
+  {
+    path: 'contacto', 
+    component: ContactoComponent
+  },
+  {
+    path: 'login', 
+    component: LoginComponent
+  },
+  {
+    path: '**', 
+    redirectTo: ''
+  }
+];
